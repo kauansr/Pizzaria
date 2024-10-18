@@ -17,7 +17,7 @@ Lista de recursos não adicionados:
 
 
 ## Como usar windows ?
-- git clone https://github.com/kauansr/Projeto-sitepizzaria.git
+- git clone https://github.com/kauansr/Pizzaria.git
 - cd pizzaria
 - python -m venv venv
 - venv\Scripts\activate.bat
