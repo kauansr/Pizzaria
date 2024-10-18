@@ -4,7 +4,7 @@
 
 ## Tecnologias usadas
 - Python -> Usado para logica e backend
-- Flask -> Framework utilizado
+- Flask -> Framework web utilizado para backend
 - Postgresql -> Banco de dados usado para armazenar os dados
 
 ## Este projeto NÃO inclui
