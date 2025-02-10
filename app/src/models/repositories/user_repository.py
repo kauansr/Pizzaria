@@ -1,9 +1,9 @@
 from typing import Dict, Tuple
-from sqlite3 import Connection
+from psycopg2.extensions import connection
 
 
 class UserRepository:
-    def __init__(self, conn: Connection) -> None:
+    def __init__(self, conn: connection) -> None:
         self.__conn = conn
 
     def registry_user(self, user_infos: Dict) -> None:
@@ -14,13 +14,16 @@ class UserRepository:
             (email, create_at, userpassword)
             VALUES
             (%s, %s, %s)
+            RETURNING id
             ''', (
                 user_infos["email"],
                 user_infos["create_at"],
                 user_infos["password"]
             )
         )
+        id_user = cursor.fetchone()[0]
         self.__conn.commit()
+        return id_user
     
     def find_user_by_id(self, user_id: int) -> Tuple:
         cursor = self.__conn.cursor()

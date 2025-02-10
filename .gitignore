@@ -12,6 +12,10 @@ docs/_build/
 __pycache__
 .vscode
 
+.env
+env
+env/
+.env/
 
 venv
 venv/
@@ -20,3 +24,7 @@ Pizzaria.sql
 Pizzaria
 
 .vscode
+
+.pytest_cache
+pytest_cache/
+.pytest_cache/

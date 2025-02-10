@@ -1,6 +1,6 @@
 from typing import Dict
 from datetime import datetime
-from src.main.utils.hash_data import HashBcrypt
+from src.main.auth.hash_data import HashBcrypt
 
 
 class EmpresaController:

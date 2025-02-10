@@ -1,9 +1,9 @@
 from typing import Dict, Tuple
-from sqlite3 import Connection
+from psycopg2.extensions import connection
 
 
 class EmpresaRepository:
-    def __init__(self, conn: Connection) -> None:
+    def __init__(self, conn: connection) -> None:
         self.__conn = conn
 
     def registry_empresa(self, empresa_infos: Dict) -> None:

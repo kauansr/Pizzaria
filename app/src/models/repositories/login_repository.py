@@ -1,9 +1,9 @@
 from typing import Tuple, Dict
-from sqlite3 import Connection
-from src.main.utils.hash_data import HashBcrypt
+from psycopg2.extensions import connection
+from src.main.auth.hash_data import HashBcrypt
 
 class LoginRepository:
-    def __init__(self, conn: Connection) -> None:
+    def __init__(self, conn: connection) -> None:
         self.__conn = conn
     
 

@@ -5,7 +5,7 @@ user_routes_bp = Blueprint('user_routes', __name__)
 
 
 from src.main.controllers.user_controller import UserController
-from src.main.controllers.token import Token
+from src.main.auth.token import UserToken, jwt_required
 
 from src.models.repositories.user_repository import UserRepository
 from src.models.repositories.login_repository import LoginRepository
@@ -27,6 +27,7 @@ def create_user():
 
 
 @user_routes_bp.route("/users/<user_id>", methods=['GET'])
+@jwt_required
 def find_user(user_id):
     conn = db_connection_handler.get_connection()
     user_repository = UserRepository(conn)
@@ -37,6 +38,7 @@ def find_user(user_id):
     return jsonify(response["body"]), response["status_code"]
 
 @user_routes_bp.route("/users/<user_id>", methods=["PUT"])
+@jwt_required
 def update_user(user_id):
     conn = db_connection_handler.get_connection()
     user_repository = UserRepository(conn)
@@ -47,6 +49,7 @@ def update_user(user_id):
     return jsonify(response["body"]), response["status_code"]
 
 @user_routes_bp.route("/users/<user_id>", methods=["DELETE"])
+@jwt_required
 def delete_user(user_id):
     conn = db_connection_handler.get_connection()
     user_repository = UserRepository(conn)
@@ -60,8 +63,8 @@ def delete_user(user_id):
 def login_user():
     conn = db_connection_handler.get_connection()
     login_repository = LoginRepository(conn)
-    controller = Token(login_repository)
+    controller = UserToken(login_repository)
 
-    response = controller.create_user_token(request.json)
+    response = controller.create_token(request.json)
 
     return jsonify(response["body"]), response["status_code"]

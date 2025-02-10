@@ -1,9 +1,9 @@
 from typing import Dict, Tuple
-from sqlite3 import Connection
+from psycopg2.extensions import connection
 
 
 class PedidoRepository:
-    def __init__(self, conn: Connection) -> None:
+    def __init__(self, conn: connection) -> None:
         self.__conn = conn
 
     def registry_produto(self, produto_infos: Dict) -> None:

@@ -5,7 +5,7 @@ empresa_routes_bp = Blueprint("empresa_routes", __name__)
 
 
 from src.main.controllers.empresa_controller import EmpresaController
-from src.main.controllers.token import Token
+from src.main.auth.token import EmpresaToken, jwt_required, superadmin_required
 
 from src.models.repositories.empresa_repository import EmpresaRepository
 from src.models.repositories.login_repository import LoginRepository
@@ -25,6 +25,7 @@ def create_empresa():
     return jsonify(response["body"]), response["status_code"]
 
 @empresa_routes_bp.route("/empresa/<empresa_id>", methods=['GET'])
+@jwt_required
 def find_empresa(empresa_id):
     conn = db_connection_handler.get_connection()
     empresa_repository = EmpresaRepository(conn)
@@ -35,6 +36,7 @@ def find_empresa(empresa_id):
     return jsonify(response["body"]), response["status_code"]
 
 @empresa_routes_bp.route("/empresa/<empresa_id>", methods=['PUT'])
+@superadmin_required
 def update_empresa(empresa_id):
     conn = db_connection_handler.get_connection()
     empresa_repository = EmpresaRepository(conn)
@@ -45,6 +47,7 @@ def update_empresa(empresa_id):
     return jsonify(response["body"]), response["status_code"]
 
 @empresa_routes_bp.route("/empresa/<empresa_id>", methods=['DELETE'])
+@superadmin_required
 def delete_empresa(empresa_id):
     conn = db_connection_handler.get_connection()
     empresa_repository = EmpresaRepository(conn)
@@ -55,11 +58,11 @@ def delete_empresa(empresa_id):
     return jsonify(response["body"]), response["status_code"]
 
 @empresa_routes_bp.route("/empresa/token", methods=["POST"])
-def login_user():
+def login_empresa():
     conn = db_connection_handler.get_connection()
     login_repository = LoginRepository(conn)
-    controller = Token(login_repository)
+    controller = EmpresaToken(login_repository)
 
-    response = controller.create_empresa_token(request.json)
+    response = controller.create_token(request.json)
 
     return jsonify(response["body"]), response["status_code"]

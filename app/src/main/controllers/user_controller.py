@@ -1,6 +1,6 @@
 from typing import Dict
 from datetime import datetime
-from src.main.utils.hash_data import HashBcrypt
+from src.main.auth.hash_data import HashBcrypt
 
 
 class UserController:
@@ -19,10 +19,14 @@ class UserController:
             
             user_infos = {"email": email, "create_at": create_at, "password": userpassword}
 
-            self.__user_repository.registry_user(user_infos)
+            user_id = self.__user_repository.registry_user(user_infos)
 
             return {
-                "body": {**user_infos},
+                "body": {
+                    "id": user_id,
+                    "email": email,
+                    "create_at": create_at
+                },
                 "status_code": 201
             }
         
