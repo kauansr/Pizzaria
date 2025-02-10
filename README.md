@@ -7,7 +7,7 @@
 - **PostgreSQL** for the database.
 - **JWT (JSON Web Tokens)** for authentication.
 - **bcrypt** for password hashing.
-- **Pytest** for routes testing.
+- **Pytest** for testing routes.
 
 ## How to Use (Windows)
 
