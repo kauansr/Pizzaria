@@ -20,10 +20,10 @@ class EmpresaController:
 
             empresa_infos = {"owner_email": email, "data_created": data_created, "cnpj":cnpj, "superadmin": True, "owner_password": password}
 
-            self.__empresa_repository.registry_empresa(empresa_infos)
+            id_empresa = self.__empresa_repository.registry_empresa(empresa_infos)
 
             return {
-                "body": {**empresa_infos},
+                "body": {"id": id_empresa, "owner_email": email, "data_created": data_created, "cnpj":cnpj, "superadmin": True},
                 "status_code": 201
             }
         

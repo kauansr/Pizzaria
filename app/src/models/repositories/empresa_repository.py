@@ -14,6 +14,7 @@ class EmpresaRepository:
             (owner_email, data_created, cnpj, superadmin, owner_password)
             VALUES
             (%s, %s, %s, %s, %s)
+            RETURNING id
             ''', (
                 empresa_infos["owner_email"],
                 empresa_infos["data_created"],
@@ -22,7 +23,10 @@ class EmpresaRepository:
                 empresa_infos["owner_password"]
             )
         )
+
+        id_empresa = cursor.fetchone()[0]
         self.__conn.commit()
+        return id_empresa
     
     def find_empresa_by_id(self, empresa_id: int) -> Tuple:
         cursor = self.__conn.cursor()
