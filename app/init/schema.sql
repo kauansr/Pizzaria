@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS pedidos (
     user_email VARCHAR(255) NOT NULL,
     pedido_nome VARCHAR(255) NOT NULL,
     data_create TIMESTAMP,
-    status_pedido INT NOT NULL,
+    status_pedido VARCHAR(255) NOT NULL,
     frete FLOAT NOT NULL,
     custo_total FLOAT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id)

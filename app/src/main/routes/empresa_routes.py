@@ -4,7 +4,7 @@ from flask import Blueprint, jsonify, request
 empresa_routes_bp = Blueprint("empresa_routes", __name__)
 
 
-from src.main.controllers.empresa_controller import EmpresaController
+from src.main.services.empresa_controller import EmpresaController
 from src.main.auth.token import EmpresaToken, jwt_required, superadmin_required
 
 from src.models.repositories.empresa_repository import EmpresaRepository
@@ -13,8 +13,7 @@ from src.models.repositories.login_repository import LoginRepository
 from src.models.settings.db_connection_handler import db_connection_handler
 
 
-
-@empresa_routes_bp.route("/empresa", methods=['POST'])
+@empresa_routes_bp.route("/empresa", methods=["POST"])
 def create_empresa():
     conn = db_connection_handler.get_connection()
     empresa_repository = EmpresaRepository(conn)
@@ -24,7 +23,8 @@ def create_empresa():
 
     return jsonify(response["body"]), response["status_code"]
 
-@empresa_routes_bp.route("/empresa/<empresa_id>", methods=['GET'])
+
+@empresa_routes_bp.route("/empresa/<empresa_id>", methods=["GET"])
 @jwt_required
 def find_empresa(empresa_id):
     conn = db_connection_handler.get_connection()
@@ -35,7 +35,8 @@ def find_empresa(empresa_id):
 
     return jsonify(response["body"]), response["status_code"]
 
-@empresa_routes_bp.route("/empresa/<empresa_id>", methods=['PUT'])
+
+@empresa_routes_bp.route("/empresa/<empresa_id>", methods=["PUT"])
 @superadmin_required
 def update_empresa(empresa_id):
     conn = db_connection_handler.get_connection()
@@ -46,7 +47,8 @@ def update_empresa(empresa_id):
 
     return jsonify(response["body"]), response["status_code"]
 
-@empresa_routes_bp.route("/empresa/<empresa_id>", methods=['DELETE'])
+
+@empresa_routes_bp.route("/empresa/<empresa_id>", methods=["DELETE"])
 @superadmin_required
 def delete_empresa(empresa_id):
     conn = db_connection_handler.get_connection()
@@ -56,6 +58,7 @@ def delete_empresa(empresa_id):
     response = controller.delete(empresa_id)
 
     return jsonify(response["body"]), response["status_code"]
+
 
 @empresa_routes_bp.route("/empresa/token", methods=["POST"])
 def login_empresa():

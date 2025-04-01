@@ -1,6 +1,8 @@
 from typing import Dict, Tuple
 from psycopg2.extensions import connection
-from absrepositories.abstract_user_repository import AbstractUserRepository
+from src.models.repositories.absrepositories.abstract_user_repository import (
+    AbstractUserRepository,
+)
 
 
 class UserRepository(AbstractUserRepository):

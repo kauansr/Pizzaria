@@ -1,4 +1,3 @@
-from src.main.server.server import app
 from src.main.server.server import create_app
 from dotenv import load_dotenv
 import os

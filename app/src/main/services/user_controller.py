@@ -1,12 +1,13 @@
 from typing import Dict
 from datetime import datetime
 from src.main.auth.hash_data import HashBcrypt
+from src.main.core.users import Users
 
 
 class UserController:
     def __init__(self, user_repository) -> None:
         self.__user_repository = user_repository
-    
+
     def create(self, body) -> Dict:
         try:
             email = body.get("email")
@@ -16,87 +17,79 @@ class UserController:
             hashed_pass = HashBcrypt(password)
 
             userpassword = hashed_pass.hash_password()
-            
-            user_infos = {"email": email, "create_at": create_at, "password": userpassword}
+
+            user = Users(email=email, create_at=create_at, password=userpassword)
+
+            user_infos = user.to_dict()
 
             user_id = self.__user_repository.registry_user(user_infos)
 
             return {
-                "body": {
-                    "id": user_id,
-                    "email": email,
-                    "create_at": create_at
-                },
-                "status_code": 201
+                "body": {"id": user_id, "email": email, "create_at": create_at},
+                "status_code": 201,
             }
-        
+
         except Exception as exception:
             return {
                 "body": {"error": "Bad Request", "message": str(exception)},
-                "status_code": 400
+                "status_code": 400,
             }
-    
+
     def find(self, user_id: int) -> Dict:
         try:
-            
+
             infos = self.__user_repository.find_user_by_id(user_id)
 
-            if not infos: raise Exception("User not found!")
+            if not infos:
+                raise Exception("User not found!")
 
             return {
                 "body": {
-                    "user":{
-                        "id": infos[0],
-                        "email": infos[1],
-                        "create_at": infos[2]
-                    }},
-                "status_code": 200
+                    "user": {"id": infos[0], "email": infos[1], "create_at": infos[2]}
+                },
+                "status_code": 200,
             }
-        
+
         except Exception as exception:
             return {
                 "body": {"error": "Bad Request", "message": str(exception)},
-                "status_code": 400
+                "status_code": 400,
             }
-    
+
     def update(self, user_id: int, body: Dict) -> Dict:
         try:
 
             user_new_email = body.get("email")
-            
+
             infos = self.__user_repository.find_user_by_id(user_id)
 
-            if not infos: raise Exception("User not found!")
+            if not infos:
+                raise Exception("User not found!")
 
             self.__user_repository.update_user_by_id(user_new_email, user_id)
 
-            return {
-                "body": {},
-                "status_code": 200
-            }
-        
+            return {"body": {}, "status_code": 200}
+
         except Exception as exception:
             return {
                 "body": {"error": "Bad Request", "message": str(exception)},
-                "status_code": 400
+                "status_code": 400,
             }
-    
+
     def delete(self, user_id: int) -> Dict:
         try:
-            
+
             infos = self.__user_repository.find_user_by_id(user_id)
 
-            if not infos: raise Exception("User not found!")
+            if not infos:
+                raise Exception("User not found!")
 
             self.__user_repository.delete_user_by_id(user_id)
 
-            return {
-                "body":{},
-                "status_code": 204
-            }
-        
+            return {"body": {}, "status_code": 204}
+
         except Exception as exception:
             return {
                 "body": {"error": "Bad Request", "message": str(exception)},
-                "status_code": 400
+                "status_code": 400,
             }

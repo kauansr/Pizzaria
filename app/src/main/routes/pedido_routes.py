@@ -7,7 +7,7 @@ pedido_routes_bp = Blueprint("pedido_route", __name__)
 from src.main.auth.token import jwt_required, superadmin_required
 
 
-from src.main.controllers.pedidos_controller import PedidosController
+from src.main.services.pedidos_controller import PedidosController
 
 from src.models.repositories.pedido_repository import PedidoRepository
 
@@ -15,7 +15,7 @@ from src.models.repositories.pedido_repository import PedidoRepository
 from src.models.settings.db_connection_handler import db_connection_handler
 
 
-@pedido_routes_bp.route("/pedido", methods=['POST'])
+@pedido_routes_bp.route("/pedido", methods=["POST"])
 @jwt_required
 def create_pedido():
     conn = db_connection_handler.get_connection()
@@ -26,7 +26,8 @@ def create_pedido():
 
     return jsonify(response["body"]), response["status_code"]
 
-@pedido_routes_bp.route("/pedido/<pedido_id>", methods=['GET'])
+
+@pedido_routes_bp.route("/pedido/<pedido_id>", methods=["GET"])
 @jwt_required
 def find_pedido(pedido_id):
     conn = db_connection_handler.get_connection()
@@ -37,7 +38,8 @@ def find_pedido(pedido_id):
 
     return jsonify(response["body"]), response["status_code"]
 
-@pedido_routes_bp.route("/pedido/<pedido_id>", methods=['PUT'])
+
+@pedido_routes_bp.route("/pedido/<pedido_id>", methods=["PUT"])
 @superadmin_required
 def update_pedido(pedido_id):
     conn = db_connection_handler.get_connection()
@@ -48,7 +50,8 @@ def update_pedido(pedido_id):
 
     return jsonify(response["body"]), response["status_code"]
 
-@pedido_routes_bp.route("/pedido/<pedido_id>", methods=['DELETE'])
+
+@pedido_routes_bp.route("/pedido/<pedido_id>", methods=["DELETE"])
 @jwt_required
 def delete_pedido(pedido_id):
     conn = db_connection_handler.get_connection()
