@@ -8,7 +8,7 @@ from src.main.auth.token import superadmin_required
 
 from src.main.services.produtos_controller import ProdutosController
 
-from src.models.repositories.produto_repository import PedidoRepository
+from src.models.repositories.produto_repository import ProdutoRepository
 
 
 from src.models.settings.db_connection_handler import db_connection_handler
@@ -18,7 +18,7 @@ from src.models.settings.db_connection_handler import db_connection_handler
 @superadmin_required
 def create_produto():
     conn = db_connection_handler.get_connection()
-    produto_repository = PedidoRepository(conn)
+    produto_repository = ProdutoRepository(conn)
     controller = ProdutosController(produto_repository)
 
     response = controller.create(request.json)
@@ -29,7 +29,7 @@ def create_produto():
 @produto_routes_bp.route("/produto/<produto_id>", methods=["GET"])
 def find_produto(produto_id):
     conn = db_connection_handler.get_connection()
-    produto_repository = PedidoRepository(conn)
+    produto_repository = ProdutoRepository(conn)
     controller = ProdutosController(produto_repository)
 
     response = controller.find(produto_id)
@@ -41,7 +41,7 @@ def find_produto(produto_id):
 @superadmin_required
 def update_produto(produto_id):
     conn = db_connection_handler.get_connection()
-    produto_repository = PedidoRepository(conn)
+    produto_repository = ProdutoRepository(conn)
     controller = ProdutosController(produto_repository)
 
     response = controller.update(produto_id, request.json)
@@ -53,7 +53,7 @@ def update_produto(produto_id):
 @superadmin_required
 def delete_produto(produto_id):
     conn = db_connection_handler.get_connection()
-    produto_repository = PedidoRepository(conn)
+    produto_repository = ProdutoRepository(conn)
     controller = ProdutosController(produto_repository)
 
     response = controller.delete(produto_id)

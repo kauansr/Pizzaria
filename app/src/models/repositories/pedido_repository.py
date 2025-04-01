@@ -9,50 +9,57 @@ class PedidoRepository:
     def registry_pedido(self, pedido_infos: Dict) -> None:
         cursor = self.__conn.cursor()
         cursor.execute(
-            '''
+            """
             INSERT INTO pedidos
             (user_id, user_email, pedido_nome, data_create, status_pedido, frete, custo_total)
             VALUES
             (%s, %s, %s, %s, %s, %s, %s)
-            ''', (
+            RETURNING id
+            """,
+            (
                 pedido_infos["user_id"],
                 pedido_infos["email"],
                 pedido_infos["pedido_nome"],
                 pedido_infos["data_create"],
                 pedido_infos["status_pedido"],
                 pedido_infos["frete"],
-                pedido_infos["custo_total"]
-            )
+                pedido_infos["custo_total"],
+            ),
         )
+        id_pedido = cursor.fetchone()[0]
         self.__conn.commit()
-    
+        return id_pedido
+
     def find_pedido_by_id(self, pedido_id: int) -> Tuple:
         cursor = self.__conn.cursor()
         cursor.execute(
-            '''
+            """
             SELECT * FROM pedidos WHERE id = %s
-            ''', (pedido_id,)
+            """,
+            (pedido_id,),
         )
         pedido = cursor.fetchone()
 
         return pedido
-    
+
     def delete_pedido_by_id(self, pedido_id: int) -> None:
         cursor = self.__conn.cursor()
         cursor.execute(
-            '''
+            """
             DELETE FROM pedidos WHERE id = %s
-            ''', (pedido_id,)
+            """,
+            (pedido_id,),
         )
         self.__conn.commit()
-    
+
     def update_pedido_by_id(self, new_infos: Dict, pedido_id: int) -> None:
         cursor = self.__conn.cursor()
         cursor.execute(
-            '''
+            """
             UPDATE pedidos
             SET status_pedido = %s
             WHERE id = %s
-            ''', (new_infos["status_pedido"], pedido_id)
+            """,
+            (new_infos["status_pedido"], pedido_id),
         )
         self.__conn.commit()
